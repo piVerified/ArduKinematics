@@ -1,39 +1,14 @@
-# pi.plug
+# pi.FO
 
-meet pi.plug, my custom designed smart plug and first IoT project, all thanks to the nice peeps at Hack Club! This smart plug lets you control devices remotely, monitor power usage, and automate your home.
+the Field Operator is an mobile manupulator, it has an fully animated arm with 5 DOF! 
 
 ---
 # Features
 
-1. Remote on/off control via Wi-Fi
-2. Power usage monitoring
-3. Automation and scheduling support
-4. Compact 3D printed enclosure
+1. 5-DOF Kinematic Integration: A fully articulated robotic arm featuring 5 Degrees of Freedom (Base, Shoulder, Elbow, Wrist Pitch, and Gripper). Integrated via Inverse Kinematics (IK) to allow coordinate-based movement rather than simple servo-angle commands.
 
+2. Unified Rover-Arm Control Profile: A custom ArduPilot vehicle configuration that seamlessly bridges the gap between Rover navigation (wheel drive) and Manipulator operation (arm control), allowing for complex "Drive-to-Pick" missions.
 
-## Fusion 360
+3. High-Fidelity Physics Simulation: Validated through ArduPilot SITL and Gazebo Harmonic. The arm features realistic inertia tensors and collision physics, ensuring that maneuvers in the simulator translate accurately to the physical hardware.
 
-### Case
-
-| Top | Side |
-| :--: | :--: |
-| *(coming soon)* | *(coming soon)* |
-
----
-## KiCAD
-
-| Schematic | PCB |
-| :-------: | :-: |
-| *(coming soon)* | *(coming soon)* |
-
----
-# Softwares Used
-
-* KiCAD -> PCB Design
-* Fusion 360 -> Case design
-* MicroPython / Arduino IDE -> Firmware
-
----
-# Bibliography
-
-> This project would not have been possible without the help of the amazing people of the internet, the Hack Club blueprint guide, and a bit of AI.
+4. Dual-Mode Operation (Auto/Manual): Support for manual teleoperation via MAVLink-compatible controllers and autonomous "Work Modes" where the arm can perform pre-programmed sequences based on GPS or sensor triggers.
