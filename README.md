@@ -10,7 +10,7 @@ ArduKinematics is a lightweight Lua-based framework designed to provide standard
 * **pi.FO (Field Operator) Reference:** A 5-DOF high-fidelity simulation model used as the "Golden Standard" for library validation.
 * **"Fusion-to-Flight" Pipeline:** A documented workflow for converting Fusion 360 CAD designs into Gazebo Harmonic-ready SDF models.
 * **Stability Aware:** Built-in hooks for EKF3 tilt-compensation to protect the vehicle's Center of Gravity (CoG) during arm extension.
-* [Fusion Demo] (https://youtu.be/Iaz9FXaadHE)
+* [Fusion Demo](https://youtu.be/Iaz9FXaadHE)
 ---
 
 ## Installation & Setup
