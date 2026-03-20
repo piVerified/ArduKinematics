@@ -1,77 +1,69 @@
-# ArduKinematics Ardupilot Library
+# ArduKinematics
+**A Modular, High-Performance Inverse Kinematics Library for ArduPilot**
 
-ArduKinematics is a modular, lightweight Inverse Kinematics (IK) library for ArduPilot, designed to provide standardized manipulator control via Lua scripting. pi.FO (Field Operator) serves as the high-fidelity reference hardware and simulation model for this framework.
+ArduKinematics is a lightweight Lua-based framework designed to provide standardized manipulator control for the ArduPilot ecosystem. By abstracting complex trigonometric and iterative solvers, it enables N-DOF serial manipulators (humanoid limbs, rover arms) to be commanded via simple Cartesian $(x, y, z)$ coordinates.
 
 ## Key Features
-1. Standardized IK Library (ArduKinematics): A reusable Lua framework for $N$-DOF serial manipulators. It allows users to input link lengths and target $(x, y, z)$ coordinates, abstracting away complex trigonometry from the end-user.
-2. pi.FO Reference Arm: A 5-DOF manipulator (Base, Shoulder, Elbow, Wrist, and Gripper) used to validate the library. Featuring link lengths of $230\text{mm}$ and $200\text{mm}$, it provides a real-world testbed for coordinate-based movement.
-3. "Fusion-to-Flight" Pipeline: A documented workflow for converting Fusion 360 CAD designs into Gazebo Harmonic-ready SDF models via Xacro and URDF.
-4. SITL Validation: Fully integrated with ArduPilot SITL and Gazebo Harmonic, featuring realistic inertia tensors and joint limit constraints validated through the ArduPilot-Gazebo plugin.
 
+* **Heuristic Solver Engine:** Implementation of the **FABRIK** (Forward And Backward Reaching Inverse Kinematics) algorithm, optimized for low-latency execution on flight controller hardware.
+* **Coordinate Frame Standardization:** Built on **Denavit-Hartenberg (DH) Parameters**, allowing the library to be reconfigured for any arm geometry via a simple config table.
+* **pi.FO (Field Operator) Reference:** A 5-DOF high-fidelity simulation model used as the "Golden Standard" for library validation.
+* **"Fusion-to-Flight" Pipeline:** A documented workflow for converting Fusion 360 CAD designs into Gazebo Harmonic-ready SDF models.
+* **Stability Aware:** Built-in hooks for EKF3 tilt-compensation to protect the vehicle's Center of Gravity (CoG) during arm extension.
 
-# Getting Started
+---
+
+## Installation & Setup
 
 ### 1. Prerequisites
+* **ArduPilot SITL** (Ubuntu 22.04 / WSL2 recommended)
+* **Gazebo Harmonic**
+* **ArduPilot-Gazebo Plugin**
 
-Before running the simulation, ensure you have the following installed:
-
-* **ArduPilot SITL**: Follow the [standard installation guide](https://ardupilot.org/dev/docs/setting-up-sitl-on-linux.html).
-* **Gazebo Harmonic**: The latest physics engine for high-fidelity simulation.
-* **ArduPilot-Gazebo Plugin**: Essential for bridging Lua commands to the simulator.
-
-### 2. Installation & Setup
-
-Clone the repository and point Gazebo to your custom model folder by adding this to your `~/.bashrc`:
-
+### 2. Environment Configuration
+Add the resource path to your `~/.bashrc`:
 ```bash
-export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:~/pi.FO/simulation/models
-
+export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:~/ArduKinematics/simulation/models
 ```
 
-### 3. Running the Simulation
-
-1. **Launch Gazebo**:
+### 3. Launching the SITL Environment
+**Terminal 1 (Gazebo):**
 ```bash
 gz sim -v4 -r pifo_test.world
-
 ```
-
-
-2. **Launch ArduPilot SITL** (in a new terminal):
+**Terminal 2 (ArduPilot):**
 ```bash
-cd ~/ardupilot/ArduRover
 sim_vehicle.py -v Rover -f gazebo-pifo --model gazebo-pifo -I0
-
-```
-
-
-
-### 4. Basic Library Usage (Lua)
-
-Once the simulation is running, your script can move the arm by simply passing Cartesian coordinates to the library:
-
-```lua
--- Example: Moving the pi.FO arm to a specific point
-local kinematics = require('AP_kinematics_core')
-
--- Define target in meters (x, y, z)
-local target = Vector3f(0.2, 0.0, 0.15) 
-
--- The library handles the Geometric/FABRIK math automatically
-local success = kinematics.move_to_target(target)
-
-if success then
-    gcs:send_text(6, "pi.FO: Target reached successfully")
-else
-    gcs:send_text(4, "pi.FO: Target out of reach!")
-end
-
 ```
 
 ---
 
-## Rad map
-- [ ] AP_kinematics_core.lua
-- [ ] AP_kinematics_utils.lua
-- [ ] pi.fo_Example.lua
-- [ ] CAD to Gazibo conversion guide
+## Usage Example (Lua)
+
+Moving a 2-DOF arm is reduced to a single API call:
+
+```lua
+local kinematics = require('ArduKinematics_Core')
+
+-- Define target in meters (x, y, z)
+local target = Vector3f(0.2, 0.0, 0.15) 
+
+-- The library handles the FABRIK iterations and joint limits automatically
+local success = kinematics.move_to_target(target)
+
+if success then
+    gcs:send_text(6, "ArduKinematics: Target reached")
+else
+    gcs:send_text(4, "ArduKinematics: Target out of reach!")
+end
+```
+
+---
+
+## Project Roadmap
+
+* [x] Mathematical Foundation (DH-Parameters & Primer)
+* [ ] **Current Phase:** URDF/SDF Model Finalization (Gazebo Harmonic)
+* [ ] Core FABRIK Solver Implementation (Lua)
+* [ ] MAVLink Telemetry Integration (`NAMED_VALUE_FLOAT`)
+* [ ] Autonomous "Pick and Place" Mission Scripts
