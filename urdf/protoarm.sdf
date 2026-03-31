@@ -1,0 +1,203 @@
+<sdf version='1.11'>
+  <model name='protoarm'>
+    <link name='base_link'>
+      <inertial>
+        <pose>-0.0019526646287648321 -8.2787738299142655e-12 -0.0042334760875323329 0 0 0</pose>
+        <mass>2.8416748798860199</mass>
+        <inertia>
+          <ixx>0.0038782857507128538</ixx>
+          <ixy>-5.6067112827942867e-08</ixy>
+          <ixz>0.00024544439406601668</ixz>
+          <iyy>0.0039652014944543106</iyy>
+          <iyz>5.701088101719755e-13</iyz>
+          <izz>0.001775975057340929</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_link_collision_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>meshes/base_link.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='base_link_visual_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>meshes/base_link.stl</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <sensor name='base_link_imu' type='imu'>
+        <always_on>true</always_on>
+        <update_rate>100</update_rate>
+        <visualize>true</visualize>
+        <imu/>
+      </sensor>
+    </link>
+    <joint name='base_link_shoulder_joint' type='revolute'>
+      <pose relative_to='base_link'>-0.055 0 0.040000000000000001 0 -1.5707963267948966 0</pose>
+      <parent>base_link</parent>
+      <child>forearm_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707960000000001</lower>
+          <upper>1.5707960000000001</upper>
+          <effort>1000000</effort>
+          <velocity>1000000</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+
+    <joint name="fixed_to_ground" type="fixed">
+      <parent>world</parent>
+      <child>base_link</child>
+    </joint>
+
+    <link name='forearm_link'>
+      <pose relative_to='base_link_shoulder_joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.068933919175485261 0 0.001881794529530954 0 0 0</pose>
+        <mass>3.0473890307041049</mass>
+        <inertia>
+          <ixx>0.0012299628702355969</ixx>
+          <ixy>0</ixy>
+          <ixz>0.00012838991892867929</ixz>
+          <iyy>0.00911194458183235</iyy>
+          <iyz>-7.1395334089174867e-19</iyz>
+          <izz>0.0090541472261003453</izz>
+        </inertia>
+      </inertial>
+      <collision name='forearm_link_collision_collision'>
+        <pose>-0.040000000000000001 0 -0.055 0 1.5707963267948966 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>meshes/forearm_link.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='forearm_link_visual_visual'>
+        <pose>-0.040000000000000001 0 -0.055 0 1.5707963267948966 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>meshes/forearm_link.stl</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='forearm_link_elbow_joint' type='revolute'>
+      <pose relative_to='forearm_link'>0.13500000000000001 0 -0.052499999999999998 3.1415926535897931 0 0</pose>
+      <parent>forearm_link</parent>
+      <child>arm_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>3.1415929999999999</upper>
+          <effort>1000000</effort>
+          <velocity>1000000</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='arm_link'>
+      <pose relative_to='forearm_link_elbow_joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.035391795701095553 0 0.003097210478937506 0 0 0</pose>
+        <mass>2.1385170769124362</mass>
+        <inertia>
+          <ixx>0.00084952076435502826</ixx>
+          <ixy>0</ixy>
+          <ixz>0.0001440144506079694</ixz>
+          <iyy>0.0028813877416193619</iyy>
+          <iyz>0</iyz>
+          <izz>0.0028483147147608731</izz>
+        </inertia>
+      </inertial>
+      <collision name='arm_link_collision_collision'>
+        <pose>-0.17499999999999999 0 0.0025000000000000001 -3.1415926535897931 -1.5707963267948966 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>meshes/arm_link.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='arm_link_visual_visual'>
+        <pose>-0.17499999999999999 0 0.0025000000000000001 -3.1415926535897931 -1.5707963267948966 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>meshes/arm_link.stl</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <plugin name='ArduPilotPlugin' filename='ArduPilotPlugin'>
+      <fdm_addr>127.0.0.1</fdm_addr>
+      <fdm_port_in>9002</fdm_port_in>
+      <fdm_port_out>9003</fdm_port_out>
+      <modelXYZToOnboardXYZ>0 0 0 0 0 0</modelXYZToOnboardXYZ>
+      <imuName>base_link_imu</imuName>
+      <control channel='0'>
+        <type>JOINT</type>
+        <offset>0</offset>
+        <p_gain>10</p_gain>
+        <i_gain>0</i_gain>
+        <d_gain>0.01</d_gain>
+        <joint_name>base_link_shoulder_joint</joint_name>
+      </control>
+      <control channel='1'>
+        <type>JOINT</type>
+        <offset>0</offset>
+        <p_gain>10</p_gain>
+        <i_gain>0</i_gain>
+        <d_gain>0.01</d_gain>
+        <joint_name>forearm_link_elbow_joint</joint_name>
+      </control>
+    </plugin>
+
+      <modelXYZToOnboardXYZ>0 0 0 0 0 0</modelXYZToOnboardXYZ>
+      <modelRPYToOnboardRPY>0 0 0 0 0 0</modelRPYToOnboardRPY>
+      
+      <control channel="0">
+        <jointName>shoulder_joint</jointName>
+        <useForce>1</useForce>
+        <multiplier>1</multiplier>
+        <offset>0</offset>
+        <servo_min>1000</servo_min>
+        <servo_max>2000</servo_max>
+      </control>
+
+      <control channel="1">
+        <jointName>elbow_joint</jointName>
+        <useForce>1</useForce>
+        <multiplier>1</multiplier>
+        <offset>0</offset>
+        <servo_min>1000</servo_min>
+        <servo_max>2000</servo_max>
+      </control>
+
+  </model>
+</sdf>

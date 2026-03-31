@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="protoarm">
+
+  <gazebo>
+    <plugin name='ArduPilotPlugin' filename='ArduPilotPlugin'>
+      <fdm_addr>127.0.0.1</fdm_addr>
+      <fdm_port_in>9002</fdm_port_in>
+      <fdm_port_out>9003</fdm_port_out>
+      <modelXYZToOnboardXYZ>0 0 0 0 0 0</modelXYZToOnboardXYZ>
+      <imuName>base_link_imu</imuName>
+      
+      <control channel="0">
+        <type>JOINT</type>
+        <offset>0</offset>
+        <p_gain>10</p_gain>
+        <i_gain>0</i_gain>
+        <d_gain>0.01</d_gain>
+        <joint_name>base_link_shoulder_joint</joint_name>
+      </control>
+
+      <control channel="1">
+        <type>JOINT</type>
+        <offset>0</offset>
+        <p_gain>10</p_gain>
+        <i_gain>0</i_gain>
+        <d_gain>0.01</d_gain>
+        <joint_name>forearm_link_elbow_joint</joint_name>
+      </control>
+    </plugin>
+  </gazebo>
+
+  <link name="base_link">
+    <inertial>
+      <origin xyz="-0.0019526646287648323 -8.278773829914266e-12 -0.004233476087532333" rpy="0.0 0.0 0.0" />
+      <mass value="2.84167487988602" />
+      <inertia ixx="0.0038782857507128543" iyy="0.0039652014944543115" izz="0.0017759750573409295" ixy="-5.606711282794287e-08" iyz="5.701088101719755e-13" ixz="0.0002454443940660167" />
+    </inertial>
+    <visual name="base_link_visual">
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="meshes/base_link.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+    <collision name="base_link_collision">
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="meshes/base_link.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <gazebo reference="base_link">
+    <sensor name="base_link_imu" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <imu/> </sensor>
+  </gazebo>
+
+  <link name="forearm_link">
+    <inertial>
+      <origin xyz="0.06893391917548526 0.0 0.0018817945295309536" rpy="0.0 -0.0 0.0" />
+      <mass value="3.0473890307041054" />
+      <inertia ixx="0.0012299628702355965" iyy="0.00911194458183235" izz="0.009054147226100345" ixy="0.0" iyz="-7.139533408917487e-19" ixz="0.00012838991892867926" />
+    </inertial>
+    <visual name="forearm_link_visual">
+      <origin xyz="-0.04 0.0 -0.055" rpy="-0.0 1.5707963267948966 0" />
+      <geometry>
+        <mesh filename="meshes/forearm_link.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+    <collision name="forearm_link_collision">
+      <origin xyz="-0.04 0.0 -0.055" rpy="-0.0 1.5707963267948966 0" />
+      <geometry>
+        <mesh filename="meshes/forearm_link.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="arm_link">
+    <inertial>
+      <origin xyz="-0.03539179570109555 0.0 0.0030972104789375055" rpy="0.0 -0.0 0.0" />
+      <mass value="2.1385170769124358" />
+      <inertia ixx="0.0008495207643550283" iyy="0.0028813877416193623" izz="0.002848314714760873" ixy="0.0" iyz="0.0" ixz="0.0001440144506079694" />
+    </inertial>
+    <visual name="arm_link_visual">
+      <origin xyz="-0.17500000000000002 0.0 0.0025" rpy="-3.141592653589793 -1.5707963267948966 0" />
+      <geometry>
+        <mesh filename="meshes/arm_link.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+    <collision name="arm_link_collision">
+      <origin xyz="-0.17500000000000002 0.0 0.0025" rpy="-3.141592653589793 -1.5707963267948966 0" />
+      <geometry>
+        <mesh filename="meshes/arm_link.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="base_link_shoulder_joint" type="revolute">
+    <origin xyz="-0.055 0.0 0.04" rpy="-0.0 -1.5707963267948966 0" />
+    <parent link="base_link" />
+    <child link="forearm_link" />
+    <axis xyz="0.0 0.0 1.0" />
+    <limit lower="-1.570796" upper="1.570796" effort="1000000" velocity="1000000" />
+  </joint>
+
+  <joint name="forearm_link_elbow_joint" type="revolute">
+    <origin xyz="0.135 0.0 -0.0525" rpy="3.141592653589793 -0.0 0.0" />
+    <parent link="forearm_link" />
+    <child link="arm_link" />
+    <axis xyz="0.0 0.0 1.0" />
+    <limit lower="0.0" upper="3.141593" effort="1000000" velocity="1000000" />
+  </joint>
+
+</robot>
