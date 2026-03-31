@@ -63,7 +63,7 @@ end
 ## Project Roadmap
 
 * [x] Mathematical Foundation (DH-Parameters & Primer)
-* [ ] **Current Phase:** URDF/SDF Model Finalization (Gazebo Harmonic)
+* [x] Current Phase: URDF/SDF Model Finalization (Gazebo Harmonic)
 * [ ] Core FABRIK Solver Implementation (Lua)
 * [ ] MAVLink Telemetry Integration (`NAMED_VALUE_FLOAT`)
 * [ ] Autonomous "Pick and Place" Mission Scripts
