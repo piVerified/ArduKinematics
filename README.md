@@ -36,30 +36,6 @@ gz sim -v4 -r pifo_test.world
 sim_vehicle.py -v Rover -f gazebo-pifo --model gazebo-pifo -I0
 ```
 
----
-
-## Usage Example (Lua)
-
-Moving a 2-DOF arm is reduced to a single API call:
-
-```lua
-local kinematics = require('ArduKinematics_Core')
-
--- Define target in meters (x, y, z)
-local target = Vector3f(0.2, 0.0, 0.15) 
-
--- The library handles the FABRIK iterations and joint limits automatically
-local success = kinematics.move_to_target(target)
-
-if success then
-    gcs:send_text(6, "ArduKinematics: Target reached")
-else
-    gcs:send_text(4, "ArduKinematics: Target out of reach!")
-end
-```
-
----
-
 ## Project Roadmap
 
 * [x] Mathematical Foundation (DH-Parameters & Primer)
