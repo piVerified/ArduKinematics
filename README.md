@@ -64,6 +64,5 @@ end
 
 * [x] Mathematical Foundation (DH-Parameters & Primer)
 * [x] Current Phase: URDF/SDF Model Finalization (Gazebo Harmonic)
-* [ ] Core FABRIK Solver Implementation (Lua)
-* [ ] MAVLink Telemetry Integration (`NAMED_VALUE_FLOAT`)
-* [ ] Autonomous "Pick and Place" Mission Scripts
+* [x] Core FABRIK Solver Implementation (Lua)
+* [x] MAVLink Telemetry Integration (`NAMED_VALUE_FLOAT`)
